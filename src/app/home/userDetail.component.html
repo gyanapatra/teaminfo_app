@@ -1,0 +1,122 @@
+<!-- <a routerLink="/users/update/{{user.id}}" class="btn btn-sm btn-primary mr-1">Update Details</a>
+<ul class="list-group">
+    <li class="list-group-item"><span>Name: </span>{{user.firstName}} {{user.middleName}} {{user.lastName}}</li>
+    <li class="list-group-item">Employee ID: <span>{{user.empId}}</span></li>
+    <li class="list-group-item">Email: <span>{{user.email}}</span></li>
+    <li class="list-group-item">UserName: <span>{{user.username}}</span></li>
+    <li class="list-group-item">Designation: <span>{{user.designation}}</span></li>
+    <li class="list-group-item">MobileNo: <span>{{user.mobileNo}}</span></li>
+</ul> -->
+
+<div class="vg-page page-about" id="about">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-4 py-3">
+                <div class="img-place wow fadeInUp">
+                    <img src="../assets/img/person.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 offset-lg-1 wow fadeInRight">
+                <h1 class="fw-light">{{user.firstName}} {{user.middleName}} {{user.lastName}}</h1>
+                <h5 class="fg-theme mb-3">{{user.designation}}</h5>
+                <!-- <p class="text-muted">Description</p> -->
+                <ul class="theme-list">
+                    <li><b>Employee ID:</b> {{user.empId}}</li>
+                    <li><b>UserName:</b> {{user.username}}</li>
+                    <li><b>Email:</b> {{user.email}}</li>
+                    <li><b>Mobile No:</b> {{user.mobileNo}}</li>
+                    <li><b>Gender:</b> Male</li>
+                </ul>
+                <button class="btn btn-theme-outline" (click)="openModal(editProfileModal, user)">Update Details</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #editProfileModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editProfileLabel">Edit Profile</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="firstName">First Name</label>
+                    <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="middleName">Middle Name</label>
+                    <input type="text" formControlName="middleName" class="form-control" />
+                </div>
+                <div class="form-group col">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="email">Email</label>
+                    <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="mobileNo">Mobile No</label>
+                    <input type="text" formControlName="mobileNo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mobileNo.errors }" />
+                    <div *ngIf="submitted && f.mobileNo.errors" class="invalid-feedback">
+                        <div *ngIf="f.mobileNo.errors.required">Mobile No is required</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="designation">Designation</label>
+                    <input type="text" formControlName="designation" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.designation.errors }" />
+                    <div *ngIf="submitted && f.designation.errors" class="invalid-feedback">
+                        <div *ngIf="f.designation.errors.required">Designation is required</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="username">Username</label>
+                    <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                        <div *ngIf="f.username.errors.required">Username is required</div>
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="password">
+                        Password
+                        <em *ngIf="!isAddMode">(Leave blank to keep the same password)</em>
+                    </label>
+                    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                        <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Save
+                </button>
+
+            </div>
+        </form>
+    </div>
+</ng-template>
