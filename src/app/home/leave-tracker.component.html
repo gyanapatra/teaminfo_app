@@ -19,8 +19,8 @@
             <td style="width: 3%" *ngFor='let in of this.monthCounter;let i=index'>
                 <span *ngFor="let a of leaveObjArray | keyvalue">
                         <div *ngIf="a.key==data.name">
-                             <span *ngFor="let c of a.value">                
-                                <span [ngClass]="{'leave-marker':c==in}"></span>                                   
+                             <span *ngFor="let day of a.value ;let j=index">                
+                                <span *ngIf="day==in" id="{{data.name}}{{j}}{{monthName}}" [ngClass]="{'leave-marker':day==in}" (click)="openModal(deleteLeave,data.name,j,day)"></span>                                   
                             </span>
                         </div>
                 </span>
@@ -28,4 +28,20 @@
         </tr>     
     </table>
 </div>
+<ng-template #deleteLeave let-modal>
+        <!-- <div class="modal-header">
+            <h5 class="modal-title" style="font-size:20px"></h5>
+            <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+         </button>
+        </div> -->
+    
+        <div class="modal-body leave-cancel-block">
+               Do you want to cancel the leave?
+               <button class="btn btn-primary save-button confirm" (click)="deleteLeaveConfirm()">Yes</button>
+               <button class="btn btn-primary save-button cancel" (click)="cancelLeaveConfirm()">No</button>
+
+               <!-- <button class="btn btn-primary save-button">No</button> -->
+        </div>
+    </ng-template>
 </div>

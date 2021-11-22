@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { CalendarOptions } from '@fullcalendar/angular'; // useful for typechecking
@@ -9,6 +9,7 @@ templateUrl: 'leave-tracker.component.html',
 styleUrls:['leave-tracker.component.css']})
 export class LeaveTrackerComponent implements OnInit {
     currentDate;
+    LeaveDate;
     monthName
     leaveData =[];
     monthsAvailable =[];
@@ -30,7 +31,14 @@ export class LeaveTrackerComponent implements OnInit {
     prevDisable ="false"
     nextMonthName;
     preMonthName
-    constructor(private accountService: AccountService) {
+    cancelLeave = false;
+    cancelLeaveDay;
+    canceledLeaveArray = [];
+    employeeName;
+    selectedIndex;
+
+    constructor(private accountService: AccountService,
+        private modalService: NgbModal) {
             this.currentDate = new Date();
             const currentMonth = this.currentDate.getMonth() + 1;
             this.monthName = this.currentDate.toLocaleString("default", {month: "long"});
@@ -56,9 +64,11 @@ export class LeaveTrackerComponent implements OnInit {
             this.nextDisable="true"
         }
      }
+     
       daysInMonth (month, year) { // Use 1 for January, 2 for February, etc.
         return new Date(year, month, 0).getDate();
       }
+     
     getLeaveDetails(){
       
         this.monthCounter=[]
@@ -143,7 +153,32 @@ export class LeaveTrackerComponent implements OnInit {
         this.getLeaveDetails();
 
     }
-     
     
+    openModal(targetModal,name,j,day) {
+        this.cancelLeaveDay = day;
+        this.employeeName = name;
+        this.selectedIndex = j;
+        this.modalService.open(targetModal, {
+          centered: true,
+          backdrop: 'static'
+        });
+        
+    }
+    deleteLeaveConfirm(){
+        var id=this.employeeName+this.selectedIndex+this.monthName;
+        document.getElementById(id).style.background='white';
+        for(let e=0;e<this.months.length;e++){
+            if(this.months[e]==this.monthName){
+                this.LeaveDate =new Date(this.currentYear,e+1,this.cancelLeaveDay)
+            }
+        }
+        console.log(this.LeaveDate)
+        this.modalService.dismissAll();
+
+    }
+    cancelLeaveConfirm(){
+        this.modalService.dismissAll();
+
+    }
     
 }

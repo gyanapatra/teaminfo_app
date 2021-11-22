@@ -21,6 +21,13 @@ table, th, td {
   td{
     font-weight: bold;
   }
+  .leave-cancel-block{
+    text-align: center;
+  }
+  .confirm{
+    margin-right: 2%;
+  }
+  
   /* .pre,.next{
     height: 20px;
   } */
