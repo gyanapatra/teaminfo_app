@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let user of users">
+                <tr *ngFor="let user of users | slice: (page-1) * pageSize : page * pageSize">
                     <td>{{user.empId}}</td>
                     <td>{{user.firstName}}</td>
                     <td>{{user.middleName}}</td>
@@ -31,6 +31,8 @@
                         </button>
                     </td>
                 </tr>
+               
+                
                 <tr *ngIf="!users">
                     <td colspan="4" class="text-center">
                         <span class="spinner-border spinner-border-lg align-center"></span>
@@ -38,5 +40,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+        <ngb-pagination *ngIf="totalSize>10" [collectionSize]="totalSize" [(page)]="page" [pageSize]="pageSize" [rotate]="true" [ellipses]="true"aria-label="Default pagination"></ngb-pagination>
+      </div>
 </div>

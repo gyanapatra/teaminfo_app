@@ -1,0 +1,31 @@
+<div class="vg-page page-leavetracker" id="leavetracker">
+        <!-- <full-calendar [options]="calendarOptions"></full-calendar> -->
+        <div class="container py-5">
+            <div class="badge badge-subhead">Employees Leave Tracker</div>
+        <div style="text-align: center;font-weight: bold;margin-bottom: 1%;"><button class="btn btn-theme-outline pre" [disabled]="prevDisable === 'true'" (click)="preMonth()"><span><--</span></button>{{monthName}}&nbsp;{{currentYear}}<button class="btn btn-theme-outline next" [disabled]="nextDisable === 'true'" (click)="nextMonth()"><span>--></span></button></div>  
+
+        <table class="col-md-12">
+        <tr>
+            <td style="width: 3%"></td>
+            <td style="width: 3%" *ngFor='let in of this.monthCounter'>{{in}}</td>
+        </tr>
+        <tr>
+            <td style="width: 3%">Employee</td>
+            <td style="width: 3%" *ngFor='let day of dayCounter'[ngClass]="{'holiday-marker':day=='Sat'||day=='Sun'}">{{day}}</td>
+
+        </tr>
+        <tr *ngFor="let data of sampleData">
+            <td>{{data.name}}</td>
+            <td style="width: 3%" *ngFor='let in of this.monthCounter;let i=index'>
+                <span *ngFor="let a of leaveObjArray | keyvalue">
+                        <div *ngIf="a.key==data.name">
+                             <span *ngFor="let c of a.value">                
+                                <span [ngClass]="{'leave-marker':c==in}"></span>                                   
+                            </span>
+                        </div>
+                </span>
+            </td>
+        </tr>     
+    </table>
+</div>
+</div>

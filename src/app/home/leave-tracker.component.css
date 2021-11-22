@@ -1,0 +1,26 @@
+table, th, td {
+    border: 1px solid rgb(168, 160, 160);
+    border-collapse: collapse;
+  }
+  .leave-marker{
+    background: #EF3724;
+    height: 20px;
+    width: 20px;
+    display: block;
+    border-radius: 20px;
+  }
+  .holiday-marker{
+    background: #d6d1d1;
+  }
+  .pre-month,.next-month{
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  }
+  td{
+    font-weight: bold;
+  }
+  /* .pre,.next{
+    height: 20px;
+  } */

@@ -5,10 +5,12 @@ import { User } from '@app/_models';
 import { AccountService, AlertService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
+import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'pm-user-detail',
-  templateUrl: 'userDetail.component.html'
+  templateUrl: 'userDetail.component.html',
+  styleUrls:['userDetail.component.css']
 })
 export class UserDetailComponent implements OnInit {
 
@@ -18,6 +20,13 @@ export class UserDetailComponent implements OnInit {
   isAddMode: boolean;
   loading = false;
   submitted = false;
+  fromDate: NgbDateStruct;
+  toDate: NgbDateStruct;
+
+  imageSrc:string;
+  url='';
+  imagePath;
+  message;
 
   constructor(private accountService: AccountService,
     private modalService: NgbModal,
@@ -26,6 +35,7 @@ export class UserDetailComponent implements OnInit {
     private router: Router,
     private alertService: AlertService) {
     this.user = this.accountService.userValue;
+    console.log(this.user)
   }
   ngOnInit(): void {
     this.id = this.user.id;
@@ -50,6 +60,9 @@ export class UserDetailComponent implements OnInit {
     });
 
     console.log("route: ",this.route);
+    if(this.url==''){
+      this.url = '../assets/img/avatar.jpg'
+    }
   }
   get f() { return this.editProfileForm.controls; }
 
@@ -70,6 +83,43 @@ export class UserDetailComponent implements OnInit {
       username: user.username
     });
   }
+  // onFileChange(event) {
+  //   const reader = new FileReader();
+    
+  //   if(event.target.files && event.target.files.length) {
+  //     const [file] = event.target.files;
+  //     reader.readAsDataURL(file);
+    
+  //     reader.onload = () => {
+   
+  //       this.imageSrc = reader.result as string;
+     
+  //       // this.myForm.patchValue({
+  //       //   fileSource: reader.result
+  //       // });
+   
+  //     };
+   
+  //   }
+  // }
+  onFileChanged(event) {
+    const files = event.target.files;
+    if (files.length === 0)
+        return;
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+        this.message = "Only images are supported.";
+        return;
+    }
+
+    const reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]); 
+    reader.onload = (_event) => { 
+        this.url = reader.result as string; 
+    }
+}
   onSubmit() {
     this.submitted = true;
 
