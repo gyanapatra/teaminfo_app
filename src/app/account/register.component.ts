@@ -11,6 +11,7 @@ export class RegisterComponent implements OnInit {
     loading = false;
     submitted = false;
 
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -27,6 +28,7 @@ export class RegisterComponent implements OnInit {
             empId: ['', Validators.nullValidator],
             email: ['', Validators.required],
             username: ['', Validators.required],
+            roles:[['ROLE_USER']],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
     }

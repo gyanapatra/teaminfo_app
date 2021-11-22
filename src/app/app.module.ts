@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { UserDetailComponent } from './home/userDetail.component';
 import { TeamInfoComponent } from './home/team-info.component';
 import { AboutUsComponent } from './home/about-us.component';
+import { HttpInterceptorService } from './_helpers/httpinterceptor.service';
 
 
 @NgModule({
@@ -33,11 +34,11 @@ import { AboutUsComponent } from './home/about-us.component';
         AboutUsComponent
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
-        // provider used to create fake backend
-        fakeBackendProvider
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpInterceptorService,
+            multi: true
+          }
     ],
     bootstrap: [AppComponent]
 })
