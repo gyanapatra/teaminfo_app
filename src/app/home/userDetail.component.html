@@ -13,7 +13,18 @@
         <div class="row">
             <div class="col-lg-4 py-3">
                 <div class="img-place wow fadeInUp">
-                    <img src="../assets/img/person.jpg" alt="">
+                        <img style="width:280px;height: 350px;" src={{url}} alt="" >
+                        <div class="file">
+                                <label for="file-input">Change/Upload Photo</label>
+                                <input type="file" id="file-input" (change)="onFileChanged($event)">
+                              </div>
+                              
+                        <!-- <input type="file" (change)="onFileChanged($event)" > -->
+
+                    <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px">
+                    <label for="imageUpload" class="btn btn-primary btn-block btn-outlined" (change)="onFileChange($event)">Change/Upload Image</label>
+                    <input type="file" id="imageUpload" accept="image/*" style="display: none"> -->
+
                 </div>
             </div>
             <div class="col-lg-6 offset-lg-1 wow fadeInRight">
@@ -21,14 +32,18 @@
                 <h5 class="fg-theme mb-3">{{user.designation}}</h5>
                 <!-- <p class="text-muted">Description</p> -->
                 <ul class="theme-list">
+                    <li><b>Technology Stack:</b>Developer</li>
                     <li><b>Employee ID:</b> {{user.empId}}</li>
                     <li><b>UserName:</b> {{user.username}}</li>
                     <li><b>Email:</b> {{user.email}}</li>
                     <li><b>Mobile No:</b> {{user.mobileNo}}</li>
                     <li><b>Gender:</b> Male</li>
+                    
                 </ul>
                 <button class="btn btn-theme-outline" (click)="openModal(editProfileModal, user)">Update Details</button>
-            </div>
+                <div>              
+                      <button class="btn btn-theme-outline" (click)="openModal(addLeaveModal, user)">Add Leave</button>           
+                </div>
         </div>
     </div>
 </div>
@@ -120,3 +135,46 @@
         </form>
     </div>
 </ng-template>
+
+<ng-template #addLeaveModal let-modal>
+        <div class="modal-header">
+            <h5 class="modal-title" id="addLeaveLabel">Add Leave</h5>
+            <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+         </button>
+        </div>
+    
+        <div class="modal-body">
+                <form class="form-inline">
+                        <div class="form-row">
+                          <div class="input-group from-date-block">
+                            <label for="from">From&nbsp;:&nbsp; </label>
+                            <input class="form-control" id="from" placeholder="yyyy-mm-dd"
+                                   name="from" [(ngModel)]="fromDate" ngbDatepicker #from="ngbDatepicker">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-secondary calender calendar" (click)="from.toggle()" type="button"></button>
+                            </div>
+                          </div>
+                         
+                        </div>
+                        <div class="form-row">
+
+                                <div class="input-group to-date-block">
+                                        <label for="to">To&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <input class="form-control" id="to" placeholder="yyyy-mm-dd"
+                                               name="to" [(ngModel)]="toDate" ngbDatepicker #to="ngbDatepicker">
+                                        <div class="input-group-append">
+                                          <button class="btn btn-outline-secondary calender calendar" (click)="to.toggle()" type="button"></button>
+                                        </div>
+                                      </div>
+                        </div>
+                        <div class="save-block">
+                                <button [disabled]="loading" class="btn btn-primary save-button">
+                                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                    Save
+                                </button>
+                
+                            </div>
+                      </form>
+        </div>
+    </ng-template>

@@ -7,13 +7,19 @@ import { AccountService } from '@app/_services';
 templateUrl: 'team-info.component.html' })
 export class TeamInfoComponent implements OnInit {
     users = null;
-
+    page = 1;
+    pageSize =10;
+    totalSize;
     constructor(private accountService: AccountService) {}
 
     ngOnInit() {
         this.accountService.getAll()
             .pipe(first())
-            .subscribe(users => this.users = users);
+            .subscribe(users => 
+                {
+                    this.users = users
+                    this.totalSize = this.users.length
+                });
     }
 
     deleteUser(id: string) {

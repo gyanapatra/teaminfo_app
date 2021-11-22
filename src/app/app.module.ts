@@ -1,7 +1,8 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers';
@@ -16,22 +17,35 @@ import { UserDetailComponent } from './home/userDetail.component';
 import { TeamInfoComponent } from './home/team-info.component';
 import { AboutUsComponent } from './home/about-us.component';
 import { HttpInterceptorService } from './_helpers/httpinterceptor.service';
+import {LeaveTrackerComponent} from './home/leave-tracker.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; 
+import dayGridPlugin from '@fullcalendar/daygrid'; 
+import interactionPlugin from '@fullcalendar/interaction'; 
+FullCalendarModule.registerPlugins([ 
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,
-        NgbModule],
+        NgbModule,
+        FullCalendarModule,
+        FormsModule
+        ],
     declarations: [
         AppComponent,
         AlertComponent,
         HomeComponent,
         UserDetailComponent,
         TeamInfoComponent,
-        AboutUsComponent
+        AboutUsComponent,
+        LeaveTrackerComponent
     ],
     providers: [
         {
