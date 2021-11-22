@@ -10,6 +10,7 @@ const accountModule = () => import('./account/account.module').then(x => x.Accou
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard]},
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    { path: 'home/user', component: UserDetailComponent, canActivate: [AuthGuard]},
     { path: 'account', loadChildren: accountModule },
 
     // otherwise redirect to home
