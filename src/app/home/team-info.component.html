@@ -2,7 +2,7 @@
     <div class="container">
         <div class="text-center wow fadeInUp">
             <div class="badge badge-subhead">Team Info</div>
-            <button>Add User</button>
+            <button class="btn btn-theme-outline float-right" (click)="openModal(addUserModal, user)">Add User</button>
         </div>
         <table class="table table-striped">
             <thead>
@@ -43,4 +43,63 @@
         </table>
         <ngb-pagination *ngIf="totalSize>10" [collectionSize]="totalSize" [(page)]="page" [pageSize]="pageSize" [rotate]="true" [ellipses]="true"aria-label="Default pagination"></ngb-pagination>
       </div>
+      <ng-template #addUserModal let-modal>
+        <div class="modal-header">
+            <h5 class="modal-title">Add User</h5>
+            <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+         </button>
+        </div>
+    
+        <div class="modal-body">
+            <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="firstName">First Name</label>
+                        <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"/>
+                        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                            <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group col">
+                        <label for="middleName">Middle Name</label>
+                        <input type="text" formControlName="middleName" class="form-control" />
+                    </div>
+                    <div class="form-group col">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
+                        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                            <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="email">Email</label>
+                        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.pattern">Email is not valid</div>
+
+                        </div>
+                    </div>
+                    <div class="form-group col">
+                        <label for="empId">Employee Id</label>
+                        <input type="text" formControlName="empId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.empId.errors }"/>
+                        <div *ngIf="submitted && f.empId.errors" class="invalid-feedback">
+                            <div *ngIf="f.empId.errors.required">EmpId is required</div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="form-group">
+                    <button [disabled]="loading" class="btn btn-primary">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Save
+                    </button>
+    
+                </div>
+            </form>
+        </div>
+    </ng-template>
 </div>

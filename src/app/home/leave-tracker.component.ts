@@ -18,8 +18,8 @@ export class LeaveTrackerComponent implements OnInit {
     leaveObjArray = [];
     monthsNameArray = [];
     monthCounter=[];
-    sampleData = [{"name":"Neethu","leaves":[{"year":"2021","September":[17,21],"October":[11,1,13],"November":[20,21],"December":[10,1,13]}]},
-    {"name":"emp1","leaves":[{"November":[2,21],"December":[10,12,13],"year":"2021"}]}]
+    sampleData = [{"name":"Neethu","leaves":[{"year":"2021","September":[17,21],"October":[11,1,13],"November":[18,19],"December":[10,1,13]}]},
+    {"name":"emp1","leaves":[{"November":[2,22],"December":[10,12,13],"year":"2021"}]}]
     daysInCurrentMonth;
     currentYear;
     dateForDay;
@@ -166,7 +166,7 @@ export class LeaveTrackerComponent implements OnInit {
     }
     deleteLeaveConfirm(){
         var id=this.employeeName+this.selectedIndex+this.monthName;
-        document.getElementById(id).style.background='white';
+        document.getElementById(id).style.display='none';
         for(let e=0;e<this.months.length;e++){
             if(this.months[e]==this.monthName){
                 this.LeaveDate =new Date(this.currentYear,e+1,this.cancelLeaveDay)
