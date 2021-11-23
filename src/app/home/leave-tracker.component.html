@@ -1,15 +1,19 @@
-<div class="vg-page page-leavetracker" id="leavetracker">
+<div class="vg-page page-leavetracker leave-tracker-block" id="leavetracker">
         <!-- <full-calendar [options]="calendarOptions"></full-calendar> -->
         <div class="container py-5">
-            <div class="badge badge-subhead">Employees Leave Tracker</div>
-        <div style="text-align: center;font-weight: bold;margin-bottom: 1%;"><button class="btn btn-theme-outline pre" [disabled]="prevDisable === 'true'" (click)="preMonth()"><span><--</span></button>{{monthName}}&nbsp;{{currentYear}}<button class="btn btn-theme-outline next" [disabled]="nextDisable === 'true'" (click)="nextMonth()"><span>--></span></button></div>  
+            <div class="badge badge-subhead"><span class="leave-track-head">Employees Leave Tracker</span></div>
+        <div style="text-align: center;font-weight: bold;margin-bottom: 1%;">
+            <div class="float-left">
+                    <button class="btn btn-theme-outline pre" [disabled]="prevDisable === 'true'" (click)="preMonth()"><span><--</span></button>{{monthName}}&nbsp;{{currentYear}}<button class="btn btn-theme-outline next" [disabled]="nextDisable === 'true'" (click)="nextMonth()"><span>--></span></button>
+            </div>
+        </div>  
 
         <table class="col-md-12">
-        <tr>
+        <tr class="date-block">
             <td style="width: 3%"></td>
             <td style="width: 3%" *ngFor='let in of this.monthCounter'>{{in}}</td>
         </tr>
-        <tr>
+        <tr class="day-block">
             <td style="width: 3%">Employee</td>
             <td style="width: 3%" *ngFor='let day of dayCounter'[ngClass]="{'holiday-marker':day=='Sat'||day=='Sun'}">{{day}}</td>
 

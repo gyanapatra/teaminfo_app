@@ -5,7 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService ,AlertService} from '@app/_services';
 
 @Component({ selector: 'pm-team-info',
-templateUrl: 'team-info.component.html' })
+templateUrl: 'team-info.component.html',
+styleUrls:['team-info.component.css']  })
 export class TeamInfoComponent implements OnInit {
     users = null;
     page = 1;
