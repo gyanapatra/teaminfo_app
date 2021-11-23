@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {
     submitted = false;
     emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -28,6 +29,7 @@ export class RegisterComponent implements OnInit {
             empId: ['', Validators.required],
             email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
             username: ['', Validators.required],
+            roles:[['ROLE_USER']],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
     }

@@ -34,18 +34,27 @@ export class UserDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private alertService: AlertService) {
+    //this.user = this.accountService.userValue;
+
+    this.accountService.getById(this.accountService.userValue.id)
+      .pipe(first())
+      .subscribe(user => {
+        this.user = user;
+       
+      });
     this.user = this.accountService.userValue;
-    console.log(this.user)
+    console.log(this.user);
   }
   ngOnInit(): void {
-    this.id = this.user.id;
-    this.isAddMode = !this.id;
 
+    this.isAddMode = false;
     // password not required in edit mode
     const passwordValidators = [Validators.minLength(6)];
     if (this.isAddMode) {
       passwordValidators.push(Validators.required);
     }
+
+
 
     this.editProfileForm = this.formBuilder.group({
       firstName: ['', Validators.required],
@@ -59,6 +68,7 @@ export class UserDetailComponent implements OnInit {
 
     });
 
+    // console.log("route: ",this.route);
     console.log("route: ",this.route);
     if(this.url==''){
       this.url = '../assets/img/avatar.jpg'
@@ -72,6 +82,8 @@ export class UserDetailComponent implements OnInit {
       backdrop: 'static'
     });
 
+    this.router.navigate(['/home/user']);
+
     this.editProfileForm.patchValue({
       firstName: user.firstName,
       middleName: user.middleName,
@@ -80,7 +92,8 @@ export class UserDetailComponent implements OnInit {
       email: user.email,
       mobileNo: user.mobileNo,
       designation: user.designation,
-      username: user.username
+      username: user.username,
+      password: user.password
     });
   }
   // onFileChange(event) {
@@ -124,31 +137,32 @@ export class UserDetailComponent implements OnInit {
     this.submitted = true;
 
     // reset alerts on submit
-  //  this.alertService.clear();
+    //  this.alertService.clear();
 
     // stop here if form is invalid
     if (this.editProfileForm.invalid) {
-        return;
+      return;
     }
 
     this.loading = true;
+
     this.updateUser();
-    
-}
-private updateUser() {
-  this.accountService.update(this.id, this.editProfileForm.value)
-  .pipe(first())
-  .subscribe(
-      data => {
-         // this.alertService.success('Update successful', { keepAfterRouteChange: true });
-         // this.router.navigate(['**', { relativeTo: this.route }]);
-         this.router.navigate(['/home']);
+
+  }
+  private updateUser() {
+    this.accountService.update(this.user.id, this.editProfileForm.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+           this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        //   this.router.navigate(['/home', { relativeTo: this.route }]);
+          this.router.navigate(['/home']);
           this.modalService.dismissAll();
-      },
-      error => {
+        },
+        error => {
           this.alertService.error(error);
           this.loading = false;
-      });
-  
-}
+        });
+
+  }
 }

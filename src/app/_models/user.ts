@@ -12,4 +12,5 @@
     doj: Date;
     dob: Date;
     token: string;
+    roles: string[];
 }
