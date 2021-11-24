@@ -27,7 +27,15 @@ table, th, td {
   .confirm{
     margin-right: 2%;
   }
-  
+  .leave-tracker-block{
+    text-align: center;
+  }
+  .date-block , .day-block{
+    background: #c9a1a1;
+  }
+  .leave-track-head{
+    font-size: 20px;
+  }
   /* .pre,.next{
     height: 20px;
   } */
