@@ -28,7 +28,6 @@ export class RegisterComponent implements OnInit {
             lastName: ['', Validators.required],
             empId: ['', Validators.required],
             email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
-            username: ['', Validators.required],
             roles:[['ROLE_USER']],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
@@ -53,11 +52,13 @@ export class RegisterComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
+                    
                     this.alertService.success('Registration successful', { keepAfterRouteChange: true });
                     this.router.navigate(['../login'], { relativeTo: this.route });
                 },
                 error => {
-                    this.alertService.error(error);
+                  //  console.log('Errorr:',error.error.message);
+                    this.alertService.error(error.error.message);
                     this.loading = false;
                 });
     }
