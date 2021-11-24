@@ -5,12 +5,15 @@ import { User } from '@app/_models';
 import { AccountService, AlertService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
-import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient, HttpRequest, HttpHeaders, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'pm-user-detail',
   templateUrl: 'userDetail.component.html',
-  styleUrls:['userDetail.component.css']
+  styleUrls: ['userDetail.component.css']
 })
 export class UserDetailComponent implements OnInit {
 
@@ -22,28 +25,33 @@ export class UserDetailComponent implements OnInit {
   submitted = false;
   fromDate: NgbDateStruct;
   toDate: NgbDateStruct;
+  selectedFile: File;
+  retrievedImage: any;
+  imageul: any;
+  base64Data: any;
+  retrieveResonse: any;
+  message: string;
 
-  imageSrc:string;
-  url='';
-  imagePath;
-  message;
+  imageSrc: string;
+  url = '';
 
   constructor(private accountService: AccountService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private http: HttpClient) {
     //this.user = this.accountService.userValue;
 
     this.accountService.getById(this.accountService.userValue.id)
       .pipe(first())
       .subscribe(user => {
         this.user = user;
-       
+
       });
     this.user = this.accountService.userValue;
-    console.log(this.user);
+    this.getImage();
   }
   ngOnInit(): void {
 
@@ -69,8 +77,8 @@ export class UserDetailComponent implements OnInit {
     });
 
     // console.log("route: ",this.route);
-    console.log("route: ",this.route);
-    if(this.url==''){
+    
+    if (this.url == '') {
       this.url = '../assets/img/avatar.jpg'
     }
   }
@@ -96,43 +104,42 @@ export class UserDetailComponent implements OnInit {
       password: user.password
     });
   }
-  // onFileChange(event) {
-  //   const reader = new FileReader();
-    
-  //   if(event.target.files && event.target.files.length) {
-  //     const [file] = event.target.files;
-  //     reader.readAsDataURL(file);
-    
-  //     reader.onload = () => {
-   
-  //       this.imageSrc = reader.result as string;
-     
-  //       // this.myForm.patchValue({
-  //       //   fileSource: reader.result
-  //       // });
-   
-  //     };
-   
-  //   }
-  // }
   onFileChanged(event) {
-    const files = event.target.files;
-    if (files.length === 0)
-        return;
 
-    const mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-        this.message = "Only images are supported.";
-        return;
-    }
+    this.selectedFile = event.target.files[0];
+    this.upload();
+  }
+  upload() {
+    console.log('file: ', this.selectedFile);
+    const uploadImageData: FormData = new FormData();
+    uploadImageData.append('imageFile', this.selectedFile);
+    uploadImageData.append('id', this.user.id);
+   
+    this.http.post(`${environment.apiUrl}/home/upload`, uploadImageData, { observe: 'response' })
+      .subscribe((response) => {
+        if (response.status === 200) {
+          this.getImage();
+          this.message = 'Image uploaded successfully';
+        } else {
+          this.message = 'Image not uploaded successfully';
+        }
 
-    const reader = new FileReader();
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]); 
-    reader.onload = (_event) => { 
-        this.url = reader.result as string; 
-    }
-}
+      }
+
+      );
+  }
+
+  getImage() {
+    this.http.get(`${environment.apiUrl}/home/photos/` + this.user.id)
+      .subscribe(
+        res => {
+          this.retrieveResonse = res;
+          this.base64Data = this.retrieveResonse.image.data;
+          this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+        }
+
+      );
+  }
   onSubmit() {
     this.submitted = true;
 
@@ -154,8 +161,8 @@ export class UserDetailComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-           this.alertService.success('Update successful', { keepAfterRouteChange: true });
-        //   this.router.navigate(['/home', { relativeTo: this.route }]);
+          this.alertService.success('Update successful', { keepAfterRouteChange: true });
+          //   this.router.navigate(['/home', { relativeTo: this.route }]);
           this.router.navigate(['/home']);
           this.modalService.dismissAll();
         },
