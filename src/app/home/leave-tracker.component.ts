@@ -77,15 +77,14 @@ export class LeaveTrackerComponent implements OnInit {
         }     
         this.leaveObjArray = [];
         for(var i=0;i<this.sampleData.length;i++){
-            console.log(this.sampleData[i].leaves);
+            
             this.leaveData =  this.sampleData[i].leaves
-            console.log(this.sampleData[i].leaves)
+            
 
-            console.log(this.sampleData[i].leaves[0])
+            
 
             for(var j=0;j<this.sampleData[i].leaves.length;j++){
-                console.log(this.monthName)
-                console.log(Object.keys(this.sampleData[i].leaves[j]))
+                
                 this.monthsNameArray = Object.keys(this.sampleData[i].leaves[j])
                 for(var k =0;k<this.monthsNameArray.length;k++){                    
                     if(this.monthName==this.monthsNameArray[k]){
@@ -106,9 +105,9 @@ export class LeaveTrackerComponent implements OnInit {
          if(this.monthName==this.months[k]){
                 this.monthName=this.months[k+1]
                 this.nextMonthName = this.months[k+2]
-                console.log("monthName",k+1)
+                
                 this.daysInCurrentMonth =  this.daysInMonth(k+2,2021);
-                console.log(this.monthName)
+                
                 for(var r =1;r<=this.daysInCurrentMonth;r++){
                     this.dateForDay = new Date(this.currentYear,k+1,r).getDay();
                     // var day =  this.dateForDay.getUTCDate();
@@ -134,13 +133,13 @@ export class LeaveTrackerComponent implements OnInit {
             if(this.monthName==this.months[k]){
                 this.monthName=this.months[k-1]
                 this.preMonthName = this.months[k-2]
-                console.log("month",k-1)
+                
                 this.daysInCurrentMonth = this.daysInMonth(k,2021)
                 for(var r =1;r<=this.daysInCurrentMonth;r++){
                     this.dateForDay = new Date(this.currentYear,k-1,r).getDay();
                     this.day = this.days[this.dateForDay]
                     this.dayCounter.push(this.day);
-                    console.log(this.day)
+                    
                 }
                 console.log("premonth",this.preMonthName)
                 if( this.preMonthName==undefined) {
