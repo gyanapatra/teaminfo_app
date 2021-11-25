@@ -8,6 +8,7 @@ table, th, td {
     width: 20px;
     display: block;
     border-radius: 20px;
+    cursor: pointer;
   }
   .holiday-marker{
     background: #d6d1d1;

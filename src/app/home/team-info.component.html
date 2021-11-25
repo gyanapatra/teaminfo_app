@@ -2,7 +2,7 @@
     <div class="container">
         <div class="text-center wow fadeInUp">
             <div class="badge badge-subhead team-info-head">Team Info</div>
-            <button class="btn btn-theme-outline float-right" (click)="openModal(addUserModal,users)">Add User</button>
+            <button class="btn btn-theme-outline float-right" (click)="openModal(addUserModal, users)">Add User</button>
         </div>
         <table class="table table-striped">
             <thead>
@@ -41,7 +41,7 @@
                 </tr>
             </tbody>
         </table>
-        <ngb-pagination *ngIf="totalSize>10" [collectionSize]="totalSize" [(page)]="page" [pageSize]="pageSize" [rotate]="true" [ellipses]="true"aria-label="Default pagination"></ngb-pagination>
+        <ngb-pagination *ngIf="totalSize>10" (pageChange)="loadPage($event,page)" [collectionSize]="totalSize" [(page)]="page" [pageSize]="pageSize" [rotate]="true" [ellipses]="true"aria-label="Default pagination"></ngb-pagination>
       </div>
       <ng-template #addUserModal let-modal>
         <div class="modal-header">

@@ -38,6 +38,8 @@
                     <li><b>Email:</b> {{user.email}}</li>
                     <li><b>Mobile No:</b> {{user.mobileNo}}</li>
                     <li><b>Gender:</b> Male</li>
+                    <li><b>Primary Skill Set:</b>Angular</li>
+                    <li><b>Secondary Skill Set:</b>HTML,CSS</li>
                     
                 </ul>
                 <button class="btn btn-theme-outline" (click)="openModal(editProfileModal, user)">Update Details</button>
@@ -101,6 +103,28 @@
                     <input type="text" formControlName="designation" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.designation.errors }" />
                     <div *ngIf="submitted && f.designation.errors" class="invalid-feedback">
                         <div *ngIf="f.designation.errors.required">Designation is required</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="primaryskillset">Primary Skill Set
+                        <em>(List skills by comma separated)</em>
+                    </label>
+                    <input type="text" formControlName="primaryskillset" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.primaryskillset.errors }" />
+                    <div *ngIf="submitted && f.primaryskillset.errors" class="invalid-feedback">
+                        <div *ngIf="f.primaryskillset.errors.required">Primary Skill is required</div>
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="secondaryskillset">Secondary Skill Set
+                        <em>(List skills by comma separated)</em>
+                    </label>
+                    <input type="text" formControlName="secondaryskillset" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.secondaryskillset.errors }" />
+                    <div *ngIf="submitted && f.secondaryskillset.errors" class="invalid-feedback">
+                        <div *ngIf="f.secondaryskillset.errors.required">Secondary Skill is required</div>
                     </div>
                 </div>
 

@@ -6,7 +6,7 @@ import { AccountService ,AlertService} from '@app/_services';
 
 @Component({ selector: 'pm-team-info',
 templateUrl: 'team-info.component.html',
-styleUrls:['team-info.component.css']  })
+styleUrls:['team-info.component.css'] })
 export class TeamInfoComponent implements OnInit {
     users = null;
     page = 1;
@@ -31,7 +31,7 @@ export class TeamInfoComponent implements OnInit {
             .subscribe(users => 
                 {
                     this.users = users
-                    this.totalSize = this.users.length
+                    this.totalSize = this.users.length;
                 });
                 this.addUserForm = this.formBuilder.group({
                     firstName: ['', Validators.required],
@@ -48,6 +48,13 @@ export class TeamInfoComponent implements OnInit {
           backdrop: 'static'
         });
     }
+
+    //integration pending server side pagination
+    loadPage(event,page){
+        console.log(this.users)
+        
+    }
+
 
     get f() { return this.addUserForm.controls; }
 
