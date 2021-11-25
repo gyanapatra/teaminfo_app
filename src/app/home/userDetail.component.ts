@@ -22,11 +22,16 @@ export class UserDetailComponent implements OnInit {
   submitted = false;
   fromDate: NgbDateStruct;
   toDate: NgbDateStruct;
-
+  selectedItems=[];
+  skillSet = [];
   imageSrc:string;
   url='';
   imagePath;
   message;
+  primarySkillArray = [];
+  secondarySkillArray = [];
+  skillsObject = {};
+  skillsArray = [];
 
   constructor(private accountService: AccountService,
     private modalService: NgbModal,
@@ -34,27 +39,18 @@ export class UserDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private alertService: AlertService) {
-    //this.user = this.accountService.userValue;
-
-    this.accountService.getById(this.accountService.userValue.id)
-      .pipe(first())
-      .subscribe(user => {
-        this.user = user;
-       
-      });
     this.user = this.accountService.userValue;
-    console.log(this.user);
+    console.log(this.user)
   }
   ngOnInit(): void {
+    this.id = this.user.id;
+    this.isAddMode = !this.id;
 
-    this.isAddMode = false;
     // password not required in edit mode
     const passwordValidators = [Validators.minLength(6)];
     if (this.isAddMode) {
       passwordValidators.push(Validators.required);
     }
-
-
 
     this.editProfileForm = this.formBuilder.group({
       firstName: ['', Validators.required],
@@ -64,15 +60,19 @@ export class UserDetailComponent implements OnInit {
       password: ['', passwordValidators],
       email: ['', Validators.required],
       mobileNo: ['', Validators.required],
-      designation: ['', Validators.required]
+      designation: ['', Validators.required],
+      secondaryskillset:['', Validators.required],
+      primaryskillset:['', Validators.required]
 
     });
 
-    // console.log("route: ",this.route);
+    
+
     console.log("route: ",this.route);
     if(this.url==''){
       this.url = '../assets/img/avatar.jpg'
     }
+   
   }
   get f() { return this.editProfileForm.controls; }
 
@@ -82,8 +82,6 @@ export class UserDetailComponent implements OnInit {
       backdrop: 'static'
     });
 
-    this.router.navigate(['/home/user']);
-
     this.editProfileForm.patchValue({
       firstName: user.firstName,
       middleName: user.middleName,
@@ -92,8 +90,7 @@ export class UserDetailComponent implements OnInit {
       email: user.email,
       mobileNo: user.mobileNo,
       designation: user.designation,
-      username: user.username,
-      password: user.password
+      username: user.username
     });
   }
   // onFileChange(event) {
@@ -134,35 +131,44 @@ export class UserDetailComponent implements OnInit {
     }
 }
   onSubmit() {
-    this.submitted = true;
+    this.skillsArray = [];
+    this.primarySkillArray = this.editProfileForm.value.primaryskillset.split(', ');
+    this.secondarySkillArray = this.editProfileForm.value.secondaryskillset.split(', ');
+    this.skillsObject["primary_skills"]=this.primarySkillArray
+    this.skillsObject["secondary_skills"]=this.secondarySkillArray
+    this.skillsArray.push(this.skillsObject);
 
+    console.log(this.skillsArray)
+    this.submitted = true;
     // reset alerts on submit
-    //  this.alertService.clear();
+  //  this.alertService.clear();
 
     // stop here if form is invalid
     if (this.editProfileForm.invalid) {
-      return;
+        return;
     }
 
     this.loading = true;
-
     this.updateUser();
+    
+}
 
-  }
-  private updateUser() {
-    this.accountService.update(this.user.id, this.editProfileForm.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-           this.alertService.success('Update successful', { keepAfterRouteChange: true });
-        //   this.router.navigate(['/home', { relativeTo: this.route }]);
-          this.router.navigate(['/home']);
+
+
+private updateUser() {
+  this.accountService.update(this.id, this.editProfileForm.value)
+  .pipe(first())
+  .subscribe(
+      data => {
+         // this.alertService.success('Update successful', { keepAfterRouteChange: true });
+         // this.router.navigate(['**', { relativeTo: this.route }]);
+         this.router.navigate(['/home']);
           this.modalService.dismissAll();
-        },
-        error => {
+      },
+      error => {
           this.alertService.error(error);
           this.loading = false;
-        });
-
-  }
+      });
+  
+}
 }
